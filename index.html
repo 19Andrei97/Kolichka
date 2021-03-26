@@ -34,40 +34,36 @@
                 </div>
                 <form>
                     <div class="form-group">
-                        <label class="radio-inline"><input class="type" id="Proclamatore" type="radio" name="optradio"
+                        <label class="radio-inline"><input class="type" id="Publisher" type="radio" name="optradio"
                                 checked>Publisher</label>
-                        <label class="radio-inline"><input class="type" id="Pioniere" type="radio"
+                        <label class="radio-inline"><input class="type" id="Pioneer" type="radio"
                                 name="optradio">Pioneer</label>
-                        <label class="radio-inline"><input class="type" id="Anziano" type="radio"
+                        <label class="radio-inline"><input class="type" id="Elder" type="radio"
                                 name="optradio">Elder</label>
                     </div>
                 </form>
                 <form>
                     <div class="form-group">
-                        <label class="radio-inline"><input class='gndr' id="Femmina" type="radio" name="optradio"
+                        <label class="radio-inline"><input class='gndr' id="Female" type="radio" name="optradio"
                                 checked>Female</label>
-                        <label class="radio-inline"><input class='gndr' id="Maschio" type="radio"
+                        <label class="radio-inline"><input class='gndr' id="Male" type="radio"
                                 name="optradio">Male</label>
-                        <label class="checkbox-inline" style="margin-left: 10px;"><input id="sessoOpposto"
-                                type="checkbox" checked>Can be partnered with other sex</label>
                     </div>
                 </form>
                 <div class="panel-group">
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <h5 class="panel-body">
-                                <a data-toggle="collapse" style="text-decoration: none !important;" href="#collapse1">Advanced Information</a>
+                                <a data-toggle="collapse" style="text-decoration: none !important;"
+                                    href="#collapse1">Advanced Information</a>
                             </h5>
                         </div>
-
-                        <!-- WORKING ON THIS -->
                         <div id="collapse1" class="panel-collapse collapse">
                             <ul class="list-group">
-                                <li class="list-group-item">One</li>
-                                <li class="list-group-item">Two</li>
-                                <li class="list-group-item">Three</li>
-                            </ul>
-                            <div class="panel-footer">Footer</div>
+                                <label class="checkbox-inline list-group-item" style="margin-left: 30px;"><input
+                                        id="canBring" type="checkbox" checked>Can transport kolichka</label>
+                                <label class="checkbox-inline list-group-item" style="margin-left: 30px;"><input
+                                        id="sessoOpposto" type="checkbox" checked>Can be partnered with other sex</label>
                         </div>
                     </div>
                 </div>
@@ -94,10 +90,12 @@
         <div class="row content bigger">
             <div class="col-sm-2 sidenav">
                 <div class="persAddBtn navbar-static-top">
-                    <a type="button" id='exportFile' style="width: 100%; margin-bottom: 0px;" class="btn btn-alert btn-sm text-center">Export List</a>
+                    <a type="button" id='exportFile' style="width: 100%; margin-bottom: 0px;"
+                        class="btn btn-alert btn-sm text-center">Export List</a>
                 </div>
                 <div class="persAddBtn navbar-static-top">
-                    <a type="button" id='importFile' style="width: 100%; margin-bottom: 7px;" class="btn btn-success btn-sm text-center">Import list</a>
+                    <a type="button" id='importFile' style="width: 100%; margin-bottom: 7px;"
+                        class="btn btn-success btn-sm text-center">Import list</a>
                 </div>
                 <div class="persAddBtn navbar-static-top">
                     <a type="button" style="width: 100%;" class="btn btn-info btn-lg text-center" data-toggle="modal"
@@ -109,7 +107,8 @@
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <h5 class="panel-title">
-                                <a data-toggle="collapse" style="text-decoration: none; color:#333" data-parent="#accordion">Added Persons</a>
+                                <a data-toggle="collapse" style="text-decoration: none; color:#333"
+                                    data-parent="#accordion">Added Persons</a>
                             </h5>
                         </div>
                     </div>
@@ -123,7 +122,8 @@
         </div>
     </div>
 
-    <div class="alert alert-success navbar-fixed-bottom" style="display: none;" role="alert">Person successfully added!</div>
+    <div class="alert alert-success navbar-fixed-bottom" style="display: none;" role="alert">Person successfully added!
+    </div>
 </body>
 
 </html>

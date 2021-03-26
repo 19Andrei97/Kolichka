@@ -1,14 +1,29 @@
 $(function () {
-
-  //todo aggiungere modifica ed elimina per ogni persona
-  //todo finalizarre il form e le informazioni che servono
+  
+  //todo check if exist already another persone with same criteria
+  //todo add modify and delete for every person
 
   let count = 1,
     obj = { persons: [] };
 
   //! Reading instance and add it
-  function addIt(name, surname, type, gender) {
-    let arr = [name, surname, type, gender];
+  function addIt(name, surname, type, gender, partner, canBring) {
+    let partenerTranslate, canBringTranslate
+
+
+    let arr = [name, surname, type, gender, partner, canBring];
+
+    //! Traslating true and false with Yes and No
+    if(partner){
+      partenerTranslate = 'Yes'
+    } else{
+      partenerTranslate = 'No'
+    }
+    if(canBring){
+      canBringTranslate = 'Yes'
+    } else {
+      canBringTranslate = 'No'
+    }
 
     //! Setting obj with key/value
     obj.persons.push(arr);
@@ -28,9 +43,9 @@ $(function () {
       .attr("id", `${count}`);
 
     let info = $("<div>")
-      .addClass("panel-body")
+      .addClass("panel-body infoPadding")
       .html(
-        `<b>Nome:</b> ${name}<br><b>Cognome:</b> ${surname}<br><b>Tipo:</b> ${type}<br><b>Sesso:</b> ${gender}`
+        `<b>Name:</b> ${name}<br><b>Surname:</b> ${surname}<br><b>Type:</b> ${type}<br><b>Sex:</b> ${gender}<br><b>Transport:</b> ${canBringTranslate}<br><b>Partner:</b> ${partenerTranslate}`
       );
 
     h5.append(a);
@@ -42,6 +57,7 @@ $(function () {
     count++;
   }
 
+  //! Get propreties on form button
   $("#btn-add").on("click", function () {
     //! confirm adding, animation
     $(".alert").slideToggle(300).attr("style", "display:block;");
@@ -51,12 +67,17 @@ $(function () {
     let name = $("#nomePr").val();
     let surname = $("#cognomePr").val(),
       type = $("input[class='type']:checked").attr("id"),
-      gender = $("input[class='gndr']:checked").attr("id");
+      gender = $("input[class='gndr']:checked").attr("id"),
+      partner = $("#sessoOpposto"),
+      canBring = $('#canBring');
 
-    addIt(name, surname, type, gender);
+      let partnerChecked = partner[0].checked
+      let canBringChecked = canBring[0].checked
+
+    addIt(name, surname, type, gender, partnerChecked, canBringChecked);
   });
 
-  //! Export File
+  //! Export File clicking on button
   $("#exportFile").on("click", function () {
     var a = document.createElement("a");
     content = JSON.stringify(obj);
@@ -67,7 +88,7 @@ $(function () {
     a.click();
   });
 
-  //! Create a hidden file type input
+  //! Create a hidden file type input to import a file
   let inputFile = $('<input type="file" id="inputElement" accept="json"/>');
 
   //! On click trigger inputFile
@@ -75,7 +96,7 @@ $(function () {
     inputFile.click();
   });
 
-  //! Read data and addIt
+  //! Read data from imported file and invoke addIt
   inputFile.on("change", function (evt) {
     var files = evt.target.files; // FileList object
 
