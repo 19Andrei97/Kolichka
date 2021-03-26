@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="data/BoostrapFiles/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="data/BoostrapFiles/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="data/style.css">
+    <script src="data/index.js"></script>
+    <script src="data/getShowPeople.js"></script>
+    <title>Espositori</title>
+</head>
+
+<body>
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Inserisci i dati</h4>
+                </div>
+                <div class="form-group">
+                    <label for="nomePr">Nome:</label>
+                    <input type="text" class="form-control" id="nomePr" placeholder="Inserisci il nome" name="nome">
+                </div>
+                <div class="form-group">
+                    <label for="cognomePr">Cognome:</label>
+                    <input type="text" class="form-control" id="cognomePr" placeholder="Inserisci il cognome"
+                        name="cognome">
+                </div>
+                <form>
+                    <div class="form-group">
+                        <label class="radio-inline"><input class="type" id="Proclamatore" type="radio" name="optradio"
+                                checked>Proclamatore</label>
+                        <label class="radio-inline"><input class="type" id="Pioniere" type="radio"
+                                name="optradio">Pioniere</label>
+                        <label class="radio-inline"><input class="type" id="Anziano" type="radio"
+                                name="optradio">Anziano</label>
+                    </div>
+                </form>
+                <form>
+                    <div class="form-group">
+                        <label class="radio-inline"><input class='gndr' id="Femmina" type="radio" name="optradio"
+                                checked>Femmina</label>
+                        <label class="radio-inline"><input class='gndr' id="Maschio" type="radio"
+                                name="optradio">Maschio</label>
+                        <label class="checkbox-inline" style="margin-left: 10px;"><input id="sessoOpposto"
+                                type="checkbox" checked>Abbinabile con l'altro sesso</label>
+                    </div>
+                </form>
+                <div class="panel-group">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h5 class="panel-body">
+                                <a data-toggle="collapse" style="text-decoration: none !important;" href="#collapse1">Dati avanzati</a>
+                            </h5>
+                        </div>
+                        <div id="collapse1" class="panel-collapse collapse">
+                            <ul class="list-group">
+                                <li class="list-group-item">One</li>
+                                <li class="list-group-item">Two</li>
+                                <li class="list-group-item">Three</li>
+                            </ul>
+                            <div class="panel-footer">Footer</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id='btn-add' class="btn btn-default" data-dismiss="modal">Aggiungi</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">Test Espositori</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid text-center">
+        <div class="row content bigger">
+            <div class="col-sm-2 sidenav">
+                <div class="persAddBtn navbar-static-top">
+                    <a type="button" id='exportFile' style="width: 100%; margin-bottom: 0px;" class="btn btn-alert btn-sm text-center">Esporta lista Persone</a>
+                </div>
+                <div class="persAddBtn navbar-static-top">
+                    <a type="button" id='importFile' style="width: 100%; margin-bottom: 7px;" class="btn btn-success btn-sm text-center">Importa lista Persone</a>
+                </div>
+                <div class="persAddBtn navbar-static-top">
+                    <a type="button" style="width: 100%;" class="btn btn-info btn-lg text-center" data-toggle="modal"
+                        data-target="#myModal">Aggiungi Persona</a>
+                </div>
+
+                <!-- LISTA PIONIERI -->
+                <div style="text-align:left; margin-top: 20px;" class="panel-group" id="accordion">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h5 class="panel-title">
+                                <a data-toggle="collapse" style="text-decoration: none; color:#333" data-parent="#accordion">Persone aggiunte</a>
+                            </h5>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-sm-8 text-left">
+            </div>
+            <div class="col-sm-2 sidenav">
+            </div>
+        </div>
+    </div>
+
+    <div class="alert alert-success navbar-fixed-bottom" style="display: none;" role="alert">Proclamatore aggiunto con
+        successo</div>
+</body>
+
+</html>
