@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="data/style.css">
     <script src="data/index.js"></script>
     <script src="data/getShowPeople.js"></script>
-    <title>Espositori</title>
+    <title>Kolichkata</title>
 </head>
 
 <body>
@@ -21,44 +21,46 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Inserisci i dati</h4>
+                    <h4 class="modal-title">Add information</h4>
                 </div>
                 <div class="form-group">
-                    <label for="nomePr">Nome:</label>
-                    <input type="text" class="form-control" id="nomePr" placeholder="Inserisci il nome" name="nome">
+                    <label for="nomePr">Name:</label>
+                    <input type="text" class="form-control" id="nomePr" placeholder="Write the person name" name="nome">
                 </div>
                 <div class="form-group">
-                    <label for="cognomePr">Cognome:</label>
-                    <input type="text" class="form-control" id="cognomePr" placeholder="Inserisci il cognome"
+                    <label for="cognomePr">Surname:</label>
+                    <input type="text" class="form-control" id="cognomePr" placeholder="Write the person surname"
                         name="cognome">
                 </div>
                 <form>
                     <div class="form-group">
                         <label class="radio-inline"><input class="type" id="Proclamatore" type="radio" name="optradio"
-                                checked>Proclamatore</label>
+                                checked>Publisher</label>
                         <label class="radio-inline"><input class="type" id="Pioniere" type="radio"
-                                name="optradio">Pioniere</label>
+                                name="optradio">Pioneer</label>
                         <label class="radio-inline"><input class="type" id="Anziano" type="radio"
-                                name="optradio">Anziano</label>
+                                name="optradio">Elder</label>
                     </div>
                 </form>
                 <form>
                     <div class="form-group">
                         <label class="radio-inline"><input class='gndr' id="Femmina" type="radio" name="optradio"
-                                checked>Femmina</label>
+                                checked>Female</label>
                         <label class="radio-inline"><input class='gndr' id="Maschio" type="radio"
-                                name="optradio">Maschio</label>
+                                name="optradio">Male</label>
                         <label class="checkbox-inline" style="margin-left: 10px;"><input id="sessoOpposto"
-                                type="checkbox" checked>Abbinabile con l'altro sesso</label>
+                                type="checkbox" checked>Can be partnered with other sex</label>
                     </div>
                 </form>
                 <div class="panel-group">
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <h5 class="panel-body">
-                                <a data-toggle="collapse" style="text-decoration: none !important;" href="#collapse1">Dati avanzati</a>
+                                <a data-toggle="collapse" style="text-decoration: none !important;" href="#collapse1">Advanced Information</a>
                             </h5>
                         </div>
+
+                        <!-- WORKING ON THIS -->
                         <div id="collapse1" class="panel-collapse collapse">
                             <ul class="list-group">
                                 <li class="list-group-item">One</li>
@@ -70,7 +72,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" id='btn-add' class="btn btn-default" data-dismiss="modal">Aggiungi</button>
+                    <button type="button" id='btn-add' class="btn btn-default" data-dismiss="modal">Add to the list</button>
                 </div>
             </div>
         </div>
@@ -83,7 +85,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="#">Test Espositori</a>
+                <a class="navbar-brand" href="#">Test Kolichkata</a>
             </div>
         </div>
     </nav>
@@ -92,14 +94,14 @@
         <div class="row content bigger">
             <div class="col-sm-2 sidenav">
                 <div class="persAddBtn navbar-static-top">
-                    <a type="button" id='exportFile' style="width: 100%; margin-bottom: 0px;" class="btn btn-alert btn-sm text-center">Esporta lista Persone</a>
+                    <a type="button" id='exportFile' style="width: 100%; margin-bottom: 0px;" class="btn btn-alert btn-sm text-center">Export List</a>
                 </div>
                 <div class="persAddBtn navbar-static-top">
-                    <a type="button" id='importFile' style="width: 100%; margin-bottom: 7px;" class="btn btn-success btn-sm text-center">Importa lista Persone</a>
+                    <a type="button" id='importFile' style="width: 100%; margin-bottom: 7px;" class="btn btn-success btn-sm text-center">Import list</a>
                 </div>
                 <div class="persAddBtn navbar-static-top">
                     <a type="button" style="width: 100%;" class="btn btn-info btn-lg text-center" data-toggle="modal"
-                        data-target="#myModal">Aggiungi Persona</a>
+                        data-target="#myModal">Add Person</a>
                 </div>
 
                 <!-- LISTA PIONIERI -->
@@ -107,7 +109,7 @@
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <h5 class="panel-title">
-                                <a data-toggle="collapse" style="text-decoration: none; color:#333" data-parent="#accordion">Persone aggiunte</a>
+                                <a data-toggle="collapse" style="text-decoration: none; color:#333" data-parent="#accordion">Added Persons</a>
                             </h5>
                         </div>
                     </div>
@@ -121,8 +123,7 @@
         </div>
     </div>
 
-    <div class="alert alert-success navbar-fixed-bottom" style="display: none;" role="alert">Proclamatore aggiunto con
-        successo</div>
+    <div class="alert alert-success navbar-fixed-bottom" style="display: none;" role="alert">Person successfully added!</div>
 </body>
 
 </html>
