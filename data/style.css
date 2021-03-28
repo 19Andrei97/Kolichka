@@ -70,6 +70,23 @@ a {
     padding: 5px !important;
     margin-bottom: 10px !important;
 }
+.dinamicDiv {
+    margin-top: 0px !important;
+}
+.filters{
+    text-decoration: none !important; 
+    color:#333;
+    cursor: pointer;
+}
+.filterLength{
+    display: inline;
+    font-size: 12px;
+    margin-left: 5px;
+    color: gray;
+    cursor: default;
+}
+
+
 
     .navbar {
         margin-bottom: 0;

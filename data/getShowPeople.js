@@ -1,4 +1,4 @@
-//todo ADD: Possibility to disable people
+//todo ADD: Possibility to disable people from being used
 //todo ADD: SearchBar
 
 let count = 0,
@@ -29,7 +29,7 @@ function addIt(name, surname, type, gender, partner, canBring, id) {
   obj.persons.push(arr);
 
   // Building DOM
-  let div1 = $("<div>").addClass("panel panel-default");
+  let div1 = $("<div>").addClass("panel panel-default dinamicDiv");
   let div2 = $("<div>").addClass("panel-heading procHead");
   let h5 = $("<h5>").addClass("panel-body").addClass("headPersonsAdjusted");
   let a = $(
@@ -63,7 +63,15 @@ function addIt(name, surname, type, gender, partner, canBring, id) {
   div1.append(div2);
   div3.append(info);
   div1.append(div3);
-  $("#accordion").append(div1);
+
+  // Decide where to put person added
+  if(type === 'Publisher') $("#publishersCollapse").append(div1);
+  else if (type === 'Elder') $("#eldersCollapse").append(div1);
+  else $("#pioneersCollapse").append(div1);
+
+  // Show filter length
+  calcolateLength()
+
   count++;
 }
 
@@ -95,21 +103,21 @@ $("#btn-add").on("click", function (e) {
 
 //! Export File clicking on button
 $("#exportFile").on("click", function () {
-  var a = document.createElement("a");
-  content = JSON.stringify(obj);
-  var file = new Blob([content], { type: "data/json" });
-  urlFile = URL.createObjectURL(file);
-  a.href = urlFile;
-  a.download = "metti-questo-file-in-data.json";
-  a.click();
+  if (confirm("Remember to save this file on 'Proclamatori' folder and to delete the previous one.")) {
+    var a = document.createElement("a");
+    content = JSON.stringify(obj);
+    var file = new Blob([content], { type: "data/json" });
+    urlFile = URL.createObjectURL(file);
+    a.href = urlFile;
+    a.download = "metti-questo-file-in-data.json";
+    a.click();
+  }
 });
 
-//! Create a hidden file type input to import a file
+//! Create a hidden file type input to import a file & On click trigger inputFile
 let inputFile = $('<input type="file" id="inputElement" accept="json"/>');
-
-//! On click trigger inputFile
 $("#importFile").on("click", function () {
-  inputFile.click();
+    inputFile.click();
 });
 
 //! Read data from imported file and invoke addIt
@@ -143,13 +151,9 @@ function deleteButton(e) {
     if (val.includes(e.id)) obj.persons.splice(i, 1);
   });
 
-  try {
-    $(e)
-      .parent()
-      .parent()
-      .fadeOut(300)
-      .then((e) => e.remove());
-  } catch (e) {}
+  $(e).parent().parent().remove()
+
+  calcolateLength()
 }
 
 //! Add Modify for DOM and call fn to modify OBJ
@@ -180,7 +184,7 @@ function modifyButton(e) {
           let div = $("<div style='margin:5px 0px'>");
           let form = $("<form></form>");
           nameCheck = $(
-            '<label class="radio-inline textInformationModify" style="margin:0px 0px 0px 5px"><input class="type" id="Publisher" type="radio" name="optradio">Publisher</label>'
+            '<label class="radio-inline textInformationModify" style="margin:0px 0px 0px 5px"><input class="type" id="Publisher" type="radio" name="optradio" checked>Publisher</label>'
           );
           nameCheck1 = $(
             '<label class="radio-inline textInformationModify" style="margin:0px 0px 0px 5px"><input class="type" id="Pioneer" type="radio" name="optradio">Pioneer</label>'
@@ -196,7 +200,7 @@ function modifyButton(e) {
           let div = $("<div style='margin:5px 0px'>");
           let form = $("<form></form>");
           nameCheck = $(
-            '<label class="radio-inline textInformationModify" style="margin:0px 0px 0px 5px"><input class="type" id="FemaleModify" type="radio" name="optradio">Female</label>'
+            '<label class="radio-inline textInformationModify" style="margin:0px 0px 0px 5px"><input class="type" id="FemaleModify" type="radio" name="optradio" checked>Female</label>'
           );
           nameCheck1 = $(
             '<label class="radio-inline textInformationModify" style="margin:0px 0px 0px 5px"><input class="type" id="MaleModify" type="radio" name="optradio">Male</label>'
@@ -213,7 +217,7 @@ function modifyButton(e) {
           let div = $("<div style='margin:5px 0px'>");
           if (switching === 0) {
             inputModify = $(
-              `<input type='checkbox' style="position: absolute; z-index: 1000;">`
+              `<input type='checkbox' style="position: absolute; z-index: 1000;" checked>`
             );
             nameCheck = $(
               "<p class='textInformationModify checkbox-inline'>"
@@ -221,7 +225,7 @@ function modifyButton(e) {
             switching = 1;
           } else {
             inputModify = $(
-              `<input style="position: absolute; z-index: 1000;" type='checkbox'>`
+              `<input style="position: absolute; z-index: 1000;" type='checkbox' checked>`
             );
             nameCheck = $(
               "<p class='textInformationModify checkbox-inline'>"
@@ -323,7 +327,6 @@ function modifyObj(id, ...arg) {
 
 //! Check if name and surname already exist on database and in case Alert
 let nameDuplicate, surnameDuplicate, divNameDuplicate, divSurnameDuplicate;
-
 $("#nomePr").change(function () {
   nameDuplicate = $(this).val();
 
@@ -336,10 +339,11 @@ $("#nomePr").change(function () {
     );
     $(this).parent().append(divNameDuplicate);
   } else {
-    divNameDuplicate.remove();
+    try {
+      divNameDuplicate.remove();
+    } catch (error) {}
   }
 });
-
 $("#cognomePr").change(function () {
   surnameDuplicate = $(this).val();
 
@@ -347,13 +351,21 @@ $("#cognomePr").change(function () {
     return val[1].toLowerCase() === surnameDuplicate.toLowerCase() && val[0].toLowerCase() === nameDuplicate.toLowerCase()
   });
 
-  console.log(testPresence)
   if (testPresence) {
     divSurnameDuplicate = $(
       `<div class="alertAddedPersons alert alert-danger">You already added another ${nameDuplicate} ${surnameDuplicate}, are you sure you want to continue?</div>`
     );
     $(this).parent().append(divSurnameDuplicate);
   } else {
-    divSurnameDuplicate.remove();
+    try {
+      divSurnameDuplicate.remove();
+    } catch (error){}
   }
 });
+
+//! Add parent length to p
+function calcolateLength(){
+  $('#publishersCollapseLength').text($("#publishersCollapse").children().length)
+  $('#eldersCollapseLength').text($("#eldersCollapse").children().length)
+  $('#pioneersCollapseLength').text($("#pioneersCollapse").children().length)
+}
