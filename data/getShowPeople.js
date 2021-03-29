@@ -1,4 +1,6 @@
 //todo ADD: Possibility to disable people from being used
+//todo ADD: Days can be paired publisher
+
 //todo ADD: SearchBar
 
 let count = 0,
@@ -84,7 +86,7 @@ $(document).on("keydown", function (e) {
 //! Get propreties on form button
 $("#btn-add").on("click", function (e) {
   // confirm adding, animation
-  $(".alert").slideToggle(300).attr("style", "display:block;");
+  $("#successfully").slideToggle(300).attr("style", "display:block;");
   setTimeout(() => $(".alert").fadeOut(500), 1500);
 
   // getting propreties
