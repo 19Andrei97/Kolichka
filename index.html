@@ -68,7 +68,7 @@
         </div>
     </div>
     <nav class="navbar navbar-inverse">
-        <div class="container-fluid">
+        <div class="container-fluid headShadow">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
                     <span class="icon-bar"></span>
@@ -139,17 +139,62 @@
 
             </div>
             <div class="col-sm-8 text-left">
+                <div class="panel panel-heading couple">
+                    <div class="wrapDayTitle mon">
+                        <h5 class="dayTitle">
+                            Monday
+                        </h5>
+                    </div>
+                    <div class="wrapDayTitle tue">
+                        <h5 class="dayTitle">
+                            Tuesday
+                        </h5>
+                    </div>
+                    <div class="wrapDayTitle wen">
+                        <h5 class="dayTitle">
+                            Wensday
+                        </h5>
+                    </div>
+                    <div class="wrapDayTitle thu">
+                        <h5 class="dayTitle">
+                            Thursday
+                        </h5>
+                    </div>
+                    <div class="wrapDayTitle fri">
+                        <h5 class="dayTitle">
+                            Friday
+                        </h5>
+                    </div>
+                    <div class="wrapDayTitle sat">
+                        <h5 class="dayTitle">
+                            Saturday
+                        </h5>
+                    </div>
+                    <div class="wrapDayTitle sun">
+                        <h5 class="dayTitle">
+                            Sunday
+                        </h5>
+                    </div>
+                </div>
             </div>
             <div class="col-sm-2 sidenav">
-                <div class="persAddBtn navbar-static-top">
-                    <a type="button" id='startPairing' style="width: 100%;" class="btn btn-info btn-lg text-center">Automatic pairing</a>
+                <!-- <div class="btn-group btn-group-justified">
+                    <a href="#" class="btn btn-primary">Apple</a>
+                    <a href="#" class="btn btn-primary">Samsung</a>
+                    <a href="#" class="btn btn-primary">Sony</a>
+                </div> -->
+                <div class="persAddBtn btn-group btn-group-justified">
+                    <a type="button" id='startPairing' style="width: 80%;" class="btn btn-info btn-lg text-center">Automatic pairing</a>
+                    <a class="btn btn-primary btn-info" style="width: 20%;"><span class="glyphicon glyphicon-cog"></span></a>
+                </div>
+                <div class="panel panel-default text-left statistics" style="margin: 20px 0px;">
                 </div>
             </div>
         </div>
-    </div>s
+    </div>
 
     <div id="successfully" class="alert alert-success navbar-fixed-bottom" style="display: none;" role="alert">Person successfully added!</div>
-    <div id="noStart" class="alert alert-danger navbar-fixed-bottom" style="display: none;" role="alert">There aren't enough person to pair! Let's Add Persons!</div>
+    <div id="noStart" class="alert alert-danger navbar-fixed-bottom" style="display: none;" role="alert">There aren't enough person to pair! Add at least 10 persons!</div>
 </body>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>

@@ -1,6 +1,7 @@
 //todo ADD: Possibility to disable people from being used
 //todo ADD: Days can be paired publisher
 
+//todo FIX: Delete and modify button in one div
 //todo ADD: SearchBar
 
 let count = 0,
@@ -67,12 +68,12 @@ function addIt(name, surname, type, gender, partner, canBring, id) {
   div1.append(div3);
 
   // Decide where to put person added
-  if(type === 'Publisher') $("#publishersCollapse").append(div1);
-  else if (type === 'Elder') $("#eldersCollapse").append(div1);
+  if (type === "Publisher") $("#publishersCollapse").append(div1);
+  else if (type === "Elder") $("#eldersCollapse").append(div1);
   else $("#pioneersCollapse").append(div1);
 
   // Show filter length
-  calcolateLength()
+  calcolateLength();
 
   count++;
 }
@@ -105,7 +106,11 @@ $("#btn-add").on("click", function (e) {
 
 //! Export File clicking on button
 $("#exportFile").on("click", function () {
-  if (confirm("Remember to save this file on 'Proclamatori' folder and to delete the previous one.")) {
+  if (
+    confirm(
+      "Are you sure you want to save the file?<br> Put the file in a safe folder, as Proclamatori."
+    )
+  ) {
     var a = document.createElement("a");
     content = JSON.stringify(obj);
     var file = new Blob([content], { type: "data/json" });
@@ -119,7 +124,7 @@ $("#exportFile").on("click", function () {
 //! Create a hidden file type input to import a file & On click trigger inputFile
 let inputFile = $('<input type="file" id="inputElement" accept="json"/>');
 $("#importFile").on("click", function () {
-    inputFile.click();
+  inputFile.click();
 });
 
 //! Read data from imported file and invoke addIt
@@ -153,9 +158,9 @@ function deleteButton(e) {
     if (val.includes(e.id)) obj.persons.splice(i, 1);
   });
 
-  $(e).parent().parent().remove()
+  $(e).parent().parent().remove();
 
-  calcolateLength()
+  calcolateLength();
 }
 
 //! Add Modify for DOM and call fn to modify OBJ
@@ -350,7 +355,10 @@ $("#cognomePr").change(function () {
   surnameDuplicate = $(this).val();
 
   let testPresence = obj.persons.some((val) => {
-    return val[1].toLowerCase() === surnameDuplicate.toLowerCase() && val[0].toLowerCase() === nameDuplicate.toLowerCase()
+    return (
+      val[1].toLowerCase() === surnameDuplicate.toLowerCase() &&
+      val[0].toLowerCase() === nameDuplicate.toLowerCase()
+    );
   });
 
   if (testPresence) {
@@ -361,13 +369,80 @@ $("#cognomePr").change(function () {
   } else {
     try {
       divSurnameDuplicate.remove();
-    } catch (error){}
+    } catch (error) {}
   }
 });
 
 //! Add parent length to p
-function calcolateLength(){
-  $('#publishersCollapseLength').text($("#publishersCollapse").children().length)
-  $('#eldersCollapseLength').text($("#eldersCollapse").children().length)
-  $('#pioneersCollapseLength').text($("#pioneersCollapse").children().length)
+function calcolateLength() {
+  $("#publishersCollapseLength").text(
+    $("#publishersCollapse").children().length
+  );
+  $("#eldersCollapseLength").text($("#eldersCollapse").children().length);
+  $("#pioneersCollapseLength").text($("#pioneersCollapse").children().length);
+}
+
+//! Show paired couple
+function showPairedPeoples(arr) {
+  let dayText,
+    dayNumb,
+    countDay = parameters.day;
+
+  // looping the days
+  for (const key in countDay) {
+    // translate day
+    if (key === "mon") {
+      dayText = "Monday";
+      dayNumb = 0;
+    } else if (key === "tue") {
+      dayText = "Tuersday";
+      dayNumb = 1;
+    } else if (key === "wen") {
+      dayText = "Wensday";
+      dayNumb = 2;
+    } else if (key === "thu") {
+      dayText = "Thuersday";
+      dayNumb = 3;
+    } else if (key === "fri") {
+      dayText = "Friday";
+      dayNumb = 4;
+    } else if (key === "sat") {
+      dayText = "Saturday";
+      dayNumb = 5;
+    } else if (key === "sun") {
+      dayText = "Sunday";
+      dayNumb = 6;
+    }
+
+    // Looping the day value, init searchName and add all to DOM
+    for (let j = 0; j < countDay[key]; j++) {
+      let names = searchName(j, dayNumb, arr),
+        div1 = $('<div class="textCouple"></div>'),
+        text = $('<h5></h5>').text(names)
+
+      div1.append(text)
+      $(`.${key}`).append(div1)
+    }
+  }
+  statisticsShow()
+}
+
+//! Translate ids in names and init statistics in pairingAlgorithm.js
+function searchName(index, day, arr) {
+  let firstId = arr[day][index][0],
+    secondId = arr[day][index][1];
+  names = "";
+  statistics(firstId, secondId)
+
+  for (const key in allPersons) {
+    if (key === firstId) {
+      names += allPersons[key].fullName + " - ";
+    }
+  }
+  for (const key in allPersons) {
+    if (key === secondId) {
+      names += allPersons[key].fullName;
+    }
+  }
+  return names;
 }

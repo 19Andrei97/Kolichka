@@ -1,5 +1,4 @@
-//? Delete Queue
-
+//todo ADD: Let the user change parameters
 let allPersons = {},
   calendar = [[], [], [], [], [], [], []], // 7 days
   parameters = {
@@ -17,32 +16,31 @@ let allPersons = {},
       sat: 2,
       sun: 2,
     },
-  },
-  queue = [[], [], []], // Pioneer / Elder / Publisher
-  obj1 = {
-    persons: [
-      ["Andrea", "Rossi", "Publisher", "Female", false, true, "N0"],
-      ["Paolo", "Bonolis", "Pioneer", "Male", true, true, "N1"],
-      ["Giorgia", "Rossi", "Pioneer", "Female", false, true, "N2"],
-      ["Davide", "Rossi", "Elder", "Male", true, true, "N3"],
-      ["Paolo", "Galassini", "Publisher", "Male", true, false, "N4"],
-      ["Raffaele", "Fabbri", "Elder", "Male", true, true, "N5"],
-    ],
   };
 
 //! Start algorithm on click
-// $("#startPairing").on("click", function () {
-//   // console.log($(this).parent().parent())
-//   //   if (obj.persons.length === 0 || obj.persons.length === 1) {
-//   //     // banner nothing to add
-//   //     $("#noStart").slideDown(300).attr("style", "display:block;");
-//   //     setTimeout(() => $("#noStart").fadeOut(500), 1500);
-//   //   } else {
-//   createChilds(obj1);
-//   pairingAlgorithm();
-//   // console.log(allPersons)
-//   //   }
-// });
+$("#startPairing").on("click", function () {
+  try{
+    allPersons = {};
+    calendar = [[], [], [], [], [], [], []];
+    $('.textCouple').remove()
+    $('.statistics').empty()
+  } catch (e){
+    console.log(e)
+  }
+  // console.log($(this).parent().parent())
+    // check first if there are enough persons in obj
+    if (obj.persons.length <= 10) {
+      // banner nothing to add
+      $("#noStart").slideDown(300).attr("style", "display:block;");
+      setTimeout(() => $("#noStart").fadeOut(500), 1500);
+    } else {
+    createChilds(obj, allPersons);
+    pairingAlgorithm(allPersons);
+    }
+  // call fn in getShowPeople.js to show paired couple
+  showPairedPeoples(calendar)
+});
 
 //! Persons constructor
 function PersonAl(fullName, type, gender, bring, otherSex, id) {
@@ -64,7 +62,6 @@ function PersonAl(fullName, type, gender, bring, otherSex, id) {
     sunday: 0,
   };
 }
-
 PersonAl.prototype.addPaired = function (id) {
   this.beenPaired.push(id);
 };
@@ -83,6 +80,7 @@ PersonAl.prototype.updateTimesUsed = function () {
   this.timesUsed++;
 };
 
+//! Create child from obj 
 function createChilds(objTake, objPut) {
   objTake.persons.forEach((val) => {
     let fullName = `${val[0]} ${val[1]}`;
@@ -97,10 +95,11 @@ function createChilds(objTake, objPut) {
   });
 }
 
+//! Start Algorithm fn
 function pairingAlgorithm(obj) {
-  let count = 0
+  let count = 0;
   for (const key in parameters.day) {
-    count += parameters.day[key]
+    count += parameters.day[key];
   }
 
   for (let index = 0; index < count; index++) {
@@ -108,6 +107,7 @@ function pairingAlgorithm(obj) {
   }
 }
 
+//! Find first person
 function firstPerson(obj) {
   let day = checkWhichDay(),
     type = queueSet(1),
@@ -126,8 +126,10 @@ function secondPerson(obj, firstPer, day) {
     arrIds = [],
     type = queueSet();
 
+  // Check to not pair same pareson and persons that have been paired already
   for (const key in obj) {
-    if (key !== firstPer) arrIds.push(key);
+    if (key !== firstPer && !obj[key].beenPaired.includes(firstPer))
+      arrIds.push(key);
   }
 
   // Checking bring and other sex compatibility
@@ -143,10 +145,14 @@ function secondPerson(obj, firstPer, day) {
     });
 
   // Check less used from previus array
-  let secondPers = findIdLessUsed(obj, day, type, arrFiltered)
-  calendar[day].push([firstPer, secondPers])
-
-  console.log(calendar)
+  let secondPers = findIdLessUsed(obj, day, type, arrFiltered);
+  
+  // Update Calendar and past paired for both persons
+  obj[firstPer].beenPaired.push(secondPers)
+  obj[secondPers].beenPaired.push(firstPer)
+  obj[secondPers].updateDay(day);
+  obj[secondPers].updateTimesUsed();
+  calendar[day].push([firstPer, secondPers]);
 }
 
 //! Check which day to set pairing
@@ -188,10 +194,10 @@ function queueSet(a) {
   }
 }
 
-//todo FIX: leave blank  when can't find or put another person
 //! Find ID of less used person
 function findIdLessUsed(obj, day, first, arr = []) {
-  let arrTotal = [[], [], []]; // id - total time used - specific day used
+  let arrTotal = [[], [], []]; // id - total count - day count
+
   // translate day
   if (day === 0) day = "monday";
   else if (day === 1) day = "tuersday";
@@ -200,7 +206,7 @@ function findIdLessUsed(obj, day, first, arr = []) {
   else if (day === 4) day = "friday";
   else if (day === 5) day = "saturday";
   else if (day === 6) day = "sunday";
-  
+
   // Check if there are specific Ids to choose from
   if (arr.length === 0) {
     // Check what type to return
@@ -236,30 +242,42 @@ function findIdLessUsed(obj, day, first, arr = []) {
           arrTotal[0].push(val);
           arrTotal[1].push(obj[val].timesUsed);
           arrTotal[2].push(obj[val].daysLastMonth[day]);
-        } else {
-          console.log('No one found for this research 1') 
-        }
-      })
+        } 
+        // else {
+        //   // console.log("Other person added! 1");
+        //   arrTotal[0].push(val);
+        //   arrTotal[1].push(obj[val].timesUsed);
+        //   arrTotal[2].push(obj[val].daysLastMonth[day]);
+        // }
+      });
     } else if (first === 2) {
       arr.forEach((val) => {
         if (obj[val].type === "Elder") {
           arrTotal[0].push(val);
           arrTotal[1].push(obj[val].timesUsed);
           arrTotal[2].push(obj[val].daysLastMonth[day]);
-        } else {
-          console.log('No one found for this research 2') 
-        }
-      })
+        } 
+        // else {
+        //   // console.log("Other person added! 2");
+        //   arrTotal[0].push(val);
+        //   arrTotal[1].push(obj[val].timesUsed);
+        //   arrTotal[2].push(obj[val].daysLastMonth[day]);
+        // }
+      });
     } else {
       arr.forEach((val) => {
         if (obj[val].type === "Publisher") {
           arrTotal[0].push(val);
           arrTotal[1].push(obj[val].timesUsed);
           arrTotal[2].push(obj[val].daysLastMonth[day]);
-        }else {
-          console.log('No one found for this research 3') 
-        }
-      })
+        } 
+        // else {
+        //   // console.log("Other person added! 3");
+        //   arrTotal[0].push(val);
+        //   arrTotal[1].push(obj[val].timesUsed);
+        //   arrTotal[2].push(obj[val].daysLastMonth[day]);
+        // }
+      });
     }
   }
 
@@ -275,12 +293,78 @@ function findIdLessUsed(obj, day, first, arr = []) {
     return val === min1;
   });
 
-  // if is the same index return one
+  // if is the same index return total count Id
   if (indexTotal === indexWeek) return arrTotal[0][indexTotal];
   // if index is different check if the person that was chosen for the week haven't
   // been choosen more on the total than the other
   else {
     if (arrTotal[1][indexWeek] >= min) return arrTotal[0][indexTotal];
     else return arrTotal[0][indexWeek];
+  }
+}
+
+//! Analize selected peoples
+let pioneers = 0, elders = 0, publishers = 0, countTest = 0, statObj = {}
+function statistics(firstId, secondId){
+  countTest+=2
+
+  if(allPersons[firstId].type === "Pioneer") {
+    pioneers+=1
+  } else if (allPersons[firstId].type === "Elder") {
+    elders+=1
+  } else {
+    publishers+=1
+  }
+
+  if(allPersons[secondId].type === "Pioneer") {
+    pioneers+=1
+  } else if (allPersons[secondId].type === "Elder"){
+    elders+=1
+  } else {
+    publishers+=1
+  }
+
+  statObj[firstId] = {}
+  statObj[secondId] = {}
+
+  statObj[firstId].been = allPersons[firstId].beenPaired
+  statObj[secondId].been = allPersons[secondId].beenPaired
+}
+
+//! Add to DOM statistics
+function statisticsShow(){
+  let div = $('.statistics'),
+    pion = Math.floor(pioneers/countTest*100),
+    eld = Math.floor(elders/countTest*100),
+    pub = Math.floor(publishers/countTest*100);
+
+  console.log(allPersons)
+  console.log(statObj)
+
+  let divGen = $('<div></div>').attr('style', 'margin: 10px; border-bottom: 2px solid grey;'),
+    textGen = $('<h5></h5>').html(`<b>Pioneers:</b> ${pion}%<br><b>Elders:</b> ${eld}%<br><b>Publishers:</b> ${pub}%<br>`)
+  divGen.append(textGen)
+  div.append(divGen)
+
+  let divAll = $('<div></div>').attr('style', 'margin: 10px;')
+  for (const key in statObj) {
+    let name = allPersons[key].fullName
+    let been = statObj[key].been
+
+    let domName = $('<h5 style="margin:5px 0px;"></h5>').html(`<b>${name}:</b><br>`)
+    divAll.append(domName)
+    been.forEach((val, i)=>{
+      if(been.length-1 !== i) {
+        let name = allPersons[val].fullName
+        let domBeen = $('<p style="display:inline;">').text(`${name}, `)
+        divAll.append(domBeen)
+      } else {
+        let name = allPersons[val].fullName
+        let domBeen = $('<p style="display:inline;">').text(`${name}`)
+        divAll.append(domBeen)
+      }
+
+    })
+    div.append(divAll)
   }
 }

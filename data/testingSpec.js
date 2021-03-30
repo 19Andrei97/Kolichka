@@ -8,11 +8,11 @@ let objAllTest = {},
             ["Marta", "Balestri", "Publisher", "Female", false, true, "N4"]
         ],
     };
-createChilds(objTest, objAllTest);
+// createChilds(objTest, objAllTest);
 
-beforeAll(function(){
-    pairingAlgorithm(objAllTest)
-})
+// beforeAll(function(){
+//     pairingAlgorithm(objAllTest)
+// })
 
 describe('Testing pairing algorithm',function(){
     it('Day pairing is reached', function(){

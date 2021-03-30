@@ -86,7 +86,29 @@ a {
     cursor: default;
 }
 
-
+.col-sm-8{
+    padding: 30px 70px !important;
+    height: 100%;
+}
+.couple{
+    min-height: 90%;
+    min-width: 100%;
+    max-height: 91%;
+    background-color: rgb(201, 201, 201);
+    box-shadow: 0 0px 0px 0 rgba(0, 0, 0, 0.2), 0 0px 50px 0 rgba(0, 0, 0, 0.19);
+    overflow: auto;
+}
+.dayTitle{
+    font-size: 30px;
+}
+.wrapDayTitle{
+    margin: 20px 20px 0px 20px;
+}
+.statistics{
+    min-height: 20%;
+    max-height: 80%;
+    overflow: auto;
+}
 
     .navbar {
         margin-bottom: 0;
@@ -101,14 +123,15 @@ a {
     padding: 20px 15px 60px;
     background-color: #646590;
     height: 100%;
+    box-shadow: 0 0px 0px 0 rgba(0, 0, 0, 0.2), 0 0px 50px 0 rgba(0, 0, 0, 0.19);
   }
   
   /* Set black background color, white text and some padding */
-  footer {
+  /* footer {
     background-color: #555;
     color: white;
     padding: 15px;
-  }
+  } */
   
   /* On small screens, set height to 'auto' for sidenav and grid */
   @media screen and (max-width: 767px) {
@@ -117,4 +140,18 @@ a {
       padding: 15px;
     }
     .row.content {height:auto;} 
+    .col-sm-8{
+        padding: 30px 70px !important;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .couple{
+        min-height: 90%;
+        min-width: 100%;
+        background-color: rgb(201, 201, 201);
+        box-shadow: 0 0px 0px 0 rgba(0, 0, 0, 0.2), 0 0px 50px 0 rgba(0, 0, 0, 0.19);
+    }
+    
   }
