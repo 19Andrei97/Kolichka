@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Pubblic Serice Helper</title>
+</head>
+
+<body>
+    <!-- Modal Add Person-->
+    <div class="modal fade" id="myModal" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Add information</h4>
+                </div>
+                <form class="formReset">
+                    <div class="form-group">
+                        <label for="nomePr">Name:</label>
+                        <input type="text" class="form-control" id="nomePr" placeholder="Write the person name" name="nome">
+                    </div>
+                    <div class="form-group">
+                        <label for="cognomePr">Surname:</label>
+                        <input type="text" class="form-control" id="cognomePr" placeholder="Write the person surname"
+                            name="cognome">
+                    </div>
+                </form>
+                <form>
+                    <div class="form-group">
+                        <label class="radio-inline"><input class="type" id="Publisher" type="radio" name="optradio"
+                                checked>Publisher</label>
+                        <label class="radio-inline"><input class="type" id="Pioneer" type="radio"
+                                name="optradio">Pioneer</label>
+                        <label class="radio-inline"><input class="type" id="Elder" type="radio"
+                                name="optradio">Elder</label>
+                    </div>
+                </form>
+                <form>
+                    <div class="form-group">
+                        <label class="radio-inline"><input class='gndr' id="Female" type="radio" name="optradio"
+                                checked>Female</label>
+                        <label class="radio-inline"><input class='gndr' id="Male" type="radio"
+                                name="optradio">Male</label>
+                    </div>
+                </form>
+                <div class="panel-group">
+                    <form class='formReset'>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h5 class="panel-body">
+                                <a data-toggle="collapse" style="text-decoration: none !important;"
+                                    href="#collapse1">Advance Information</a>
+                            </h5>
+                        </div>
+                        <div id="collapse1" class="panel-collapse collapse">
+                            <ul class="list-group">
+                            <label class="checkbox-inline list-group-item"><form class="formAddPerson"><input
+                                id="canBring" type="checkbox" checked></form>Can transport kolichka</label>
+                            <label class="checkbox-inline list-group-item"><form class="formAddPerson"><input
+                                id="sessoOpposto" type="checkbox" checked></form>Can be partnered with other sex</label>
+                            <p class="list-group-item"><b>Free days</b></p>
+                            <label class="checkbox-inline list-group-item"><input class="coupleDays" type="checkbox" value="Monday" checked>Monday</label>
+                            <label class="checkbox-inline list-group-item"><input class="coupleDays" type="checkbox" value="Tuesday" checked>Tuesday</label>
+                            <label class="checkbox-inline list-group-item"><input class="coupleDays" type="checkbox" value="Wensday" checked>Wensday</label>
+                            <label class="checkbox-inline list-group-item"><input class="coupleDays" type="checkbox" value="Thursday" checked>Thursday</label>
+                            <label class="checkbox-inline list-group-item"><input class="coupleDays" type="checkbox" value="Friday" checked>Friday</label>
+                            <label class="checkbox-inline list-group-item"><input class="coupleDays" type="checkbox" value="Saturday" checked>Saturday</label>
+                            <label class="checkbox-inline list-group-item"><input class="coupleDays" type="checkbox" value="Sunday" checked>Sunday</label>
+                            </ul>
+                        </div>
+                    </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id='btn-add' class="btn btn-default" data-dismiss="modal">Add to the list</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal Change Parameters -->
+    <div class="modal fade" id="modalPara" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h3 class="modal-title">Pairing parameters</h3>
+                </div>
+                <div class="container-fluid">
+                    <div class="col-sm-6">
+                        <div class="form-group titlesPercent">
+                            <h4>Percentage for type</h4>
+                        </div>
+                        <form>
+                            <div class="form-group percent">
+                                <label for="publishers">Publishers: </label>
+                                <input type="number" class="inputNumber onChangePara" disabled id="publishers" value="25" name="quantity" min="0" max="100">
+                                %
+                            </div>
+                            <div class="form-group percent">
+                                <label for="elders">Elders: </label>
+                                <input type="number" class="inputNumber onChangePara" id="elders" value="25" name="quantity" min="0" max="100">
+                                %
+                            </div>
+                            <div class="form-group percent">
+                                <label for="pioneers">Pioneers: </label>
+                                <input type="number" class="inputNumber onChangePara" id="pioneers" value="50" name="quantity" min="0" max="100">
+                                %
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group titlesPercent">
+                            <h4>Couples per day</h4>
+                        </div>
+                        <form>
+                            <div class="form-group percent">
+                                <label for="monday">Monday: </label>
+                                <input type="number" class="inputNumber" value="1" id="monday" name="quantity" min="0" max="30">
+                            </div>
+                            <div class="form-group percent">
+                                <label for="tuesday">Tuesday: </label>
+                                <input type="number" class="inputNumber" value="1" id="tuesday" name="quantity" min="0" max="30">
+                            </div>
+                            <div class="form-group percent">
+                                <label for="wensday">Wensday: </label>
+                                <input type="number" class="inputNumber" value="1" id="wensday" name="quantity" min="0" max="30">
+                            </div>
+                            <div class="form-group percent">
+                                <label for="thursday">Thursday: </label>
+                                <input type="number" class="inputNumber" value="1" id="thursday" name="quantity" min="0" max="30">
+                            </div>
+                            <div class="form-group percent">
+                                <label for="friday">Friday: </label>
+                                <input type="number" class="inputNumber" value="1" id="friday" name="quantity" min="0" max="30">
+                            </div>
+                            <div class="form-group percent">
+                                <label for="saturday">Saturday: </label>
+                                <input type="number" class="inputNumber" value="1" id="saturday" name="quantity" min="0" max="30">
+                            </div>
+                            <div class="form-group percent">
+                                <label for="sunday">Sunday: </label>
+                                <input type="number" class="inputNumber" value="1" id="sunday" name="quantity" min="0" max="30">
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col-sm-6 resultPersent">
+                        <div class="form-group titlesPercentExp">
+                            <h5 class="text-muted">Expected percentage 
+                                <button type="button" id="refreshExp" class="btn btn-default btn-xs">
+                                    <span class="glyphicon glyphicon-refresh"></span>
+                                </button>
+                            </h5>
+                        </div>
+                        <form>
+                            <div class="form-group percentExp">
+                                <label for="publishersExp" class="text-muted">Publishers: </label>
+                                <p class="text-muted textExp" id="publishersExp"></p>
+                            </div>
+                            <div class="form-group percentExp">
+                                <label for="eldersExp" class="text-muted">Elders: </label>
+                                <p class="text-muted textExp" id="eldersExp"></p>
+                            </div>
+                            <div class="form-group percentExp">
+                                <label for="pioneersExp" class="text-muted">Pioneers: </label>
+                                <p class="text-muted textExp" id="pioneersExp"></p>
+                            </div>
+                            <div class="form-group percentExp">
+                                <label for="errorExp" class="text-muted">Errors risk: </label>
+                                <p class="text-muted textExp" id="errorExp"></p>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id='btn-para' class="btn btn-default" data-dismiss="modal">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Top Bar -->
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid headShadow">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand">The Pubblic Service Helper</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid text-center">
+        <div class="row content bigger">
+            <!-- Left Column -->
+            <div class="col-sm-2 sidenav">
+                <div class="persAddBtn navbar-static-top">
+                    <a type="button" id='exportFile' data-placement="bottom" data-toggle='tooltip' title='Save File' style="width: 100%; margin-bottom: 0px;"
+                        class="btn btn-alert btn-sm text-center">Export List</a>
+                </div>
+                <div class="persAddBtn navbar-static-top">
+                    <a type="button" data-toggle='tooltip' data-placement="bottom" title='Import File' id='importFile' style="width: 100%; margin-bottom: 7px;"
+                        class="btn btn-success btn-sm text-center">Import List</a>
+                </div>
+                <div class="persAddBtn navbar-static-top">
+                    <a type="button" id='addPersonBtn' style="width: 100%;" class="btn btn-info btn-lg text-center" data-toggle="modal"
+                        data-target="#myModal">Add Person</a>
+                </div>
+
+                <!-- List -->
+                <div style="text-align:left; margin-top: 20px;" class="panel-group" id="accordion">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h5 class="panel-title">
+                                <a style="text-decoration: none; color:#333" data-parent="#accordion">Added Persons</a>
+                            </h5>
+                        </div>
+                    </div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading" style="background-color: rgb(199, 199, 199);">
+                            <h5 class="panel-title">
+                                <a data-toggle="collapse" class="filters" data-target="#pioneersCollapse" data-parent="#accordion">Pioneers</a>
+                                <p class="filterLength" id="pioneersCollapseLength"></p>
+                            </h5>
+                        </div>
+                    </div>
+                    <div id="pioneersCollapse" class="collapse">
+                    </div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading" style="background-color: rgb(199, 199, 199);">
+                            <h5 class="panel-title">
+                                <a data-toggle="collapse" class="filters" data-target="#eldersCollapse" data-parent="#accordion">Elders</a>
+                                <p class="filterLength" id="eldersCollapseLength"></p>
+                            </h5>
+                        </div>
+                    </div>
+                    <div id="eldersCollapse" class="collapse">
+                    </div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading" style="background-color: rgb(199, 199, 199);">
+                            <h5 class="panel-title">
+                                <a data-toggle="collapse" class="filters" data-target="#publishersCollapse" data-parent="#accordion">Publishers</a>
+                                <p class="filterLength" id="publishersCollapseLength"></p>
+                            </h5>
+                        </div>
+                    </div>
+                    <div id="publishersCollapse" class="collapse">
+                    </div>
+                    <div class="panel panel-default deactDiv">
+                        <div class="panel-heading">
+                            <h5 class="panel-title">
+                                <a class='deactivated preventOver' data-toggle="collapse" data-target="#deactCollapse" data-parent="#accordion" >Deactivated</a>
+                                <p class="filterLength" id="deactivatedCollapseLength"></p>
+                            </h5>
+                        </div>
+                    </div>
+                    <div id="deactCollapse" class="collapse">
+                    </div>
+                </div>
+
+            </div>
+            <!-- Middle Column -->
+            <div class="col-sm-8 text-left">
+                <div class="panel buttonDate">
+                    <div class="row">
+                    <div class="col-sm-2 text-center btnMonthBigScreen">
+                        <button type="button" id='previousMonth' onclick="previous()" class="btn btn-default dateBtn">Previous</button>
+                    </div>
+                    <div class="col-sm-2 text-center btnMonthSmallScreen">
+                        <button type="button" id='previousMonth' onclick="previous()" class="btn btn-default dateBtn">Previous</button>
+                        <button type="button" id='nextMonth' onclick="next()" class="btn btn-default dateBtn">Next</button>
+                    </div>
+                    <div class="col-sm-8 text-center divMonthText">
+                        <h3 class="monthText"></h3>
+                    </div>
+                    <div class="col-sm-2 text-center btnMonthBigScreen">
+                        <button type="button" id='nextMonth' onclick="next()" class="btn btn-default dateBtn">Next</button>
+                    </div>
+                    </div>
+                </div>
+                <div class="panel panel-heading couple"></div>
+            </div>
+            <!-- Right Column -->
+            <div class="col-sm-2 sidenav">
+                <div class="persAddBtn btn-group btn-group-justified">
+                    <a type="button" id='startPairing' style="width: 80%;" class="btn btn-info btn-lg text-center preventOver">Automatic pairing</a>
+                    <a class="btn btn-primary btn-info preventOver" style="width: 20%;" data-toggle="modal" data-target="#modalPara">
+                        <span class="glyphicon glyphicon-cog"></span>
+                    </a>
+                </div>
+                <div class="panel panel-default text-left statistics" style="margin: 20px 0px;">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="successfully" class="alert alert-success navbar-fixed-bottom" style="display: none;" role="alert">Person successfully added!</div>
+    <div id="noStart" class="alert alert-danger navbar-fixed-bottom" style="display: none;" role="alert">There aren't enough person to pair! Add at least 10 persons!</div>
+    <div id="tooDif" class="alert alert-danger navbar-fixed-bottom" style="display: none;" role="alert">Error! Too difficult to pair people, try to change parameters!</div>
+</body>
+
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<!-- Compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+<script src="data/getShowPeople.js"></script>
+
+<link rel="stylesheet" href="data/style.css">
+
+<script src="data/pairingAlgorithm.js"></script>
+
+</html>
