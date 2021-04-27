@@ -1,6 +1,11 @@
 //todo ADD: SearchBar
 //todo ADD: Sort people
 
+//! Alert before closing windows
+window.addEventListener("beforeunload", function(event) {
+  event.returnValue = "";
+});
+
 let count = 0,
   obj = { persons: [], deactivated: [] }, //! Obj that will be used to stored all persons
   partenerTranslate,
@@ -14,11 +19,30 @@ let count = 0,
   sunday;
 
 //! Reading new Person and add it
-function addIt(name, surname, type, gender, partner, canBring, arrDays, id, rule = true) {
+function addIt(
+  name,
+  surname,
+  type,
+  gender,
+  partner,
+  canBring,
+  arrDays,
+  id,
+  rule = true
+) {
   let idChecked;
   if (id[0] === "N") idChecked = id;
   else idChecked = `N${id}`;
-  let arr = [name, surname, type, gender, canBring, partner, arrDays, idChecked];
+  let arr = [
+    name,
+    surname,
+    type,
+    gender,
+    canBring,
+    partner,
+    arrDays,
+    idChecked,
+  ];
 
   // Traslating true and false with Yes and No
   if (partner) {
@@ -31,40 +55,40 @@ function addIt(name, surname, type, gender, partner, canBring, arrDays, id, rule
   } else {
     canBringTranslate = "No";
   }
-  if(arrDays[0]) {
-    monday = 'Yes';
+  if (arrDays[0]) {
+    monday = "Yes";
   } else {
-    monday = 'No';
+    monday = "No";
   }
-  if(arrDays[1]) {
-    tuesday = 'Yes';
+  if (arrDays[1]) {
+    tuesday = "Yes";
   } else {
-    tuesday = 'No';
+    tuesday = "No";
   }
-  if(arrDays[2]) {
-    wensday = 'Yes';
+  if (arrDays[2]) {
+    wensday = "Yes";
   } else {
-    wensday = 'No';
+    wensday = "No";
   }
-  if(arrDays[3]) {
-    thursday = 'Yes';
+  if (arrDays[3]) {
+    thursday = "Yes";
   } else {
-    thursday = 'No';
+    thursday = "No";
   }
-  if(arrDays[4]) {
-    friday = 'Yes';
+  if (arrDays[4]) {
+    friday = "Yes";
   } else {
-    friday = 'No';
+    friday = "No";
   }
-  if(arrDays[5]) {
-    saturday = 'Yes';
+  if (arrDays[5]) {
+    saturday = "Yes";
   } else {
-    saturday = 'No';
+    saturday = "No";
   }
-  if(arrDays[6]) {
-    sunday = 'Yes';
+  if (arrDays[6]) {
+    sunday = "Yes";
   } else {
-    sunday = 'No';
+    sunday = "No";
   }
 
   // Setting obj with key/value
@@ -79,15 +103,15 @@ function addIt(name, surname, type, gender, partner, canBring, arrDays, id, rule
     )
       .text(`${name} ${surname}`)
       .attr("href", `#${count}`),
-    divButtons = $("<div></div>").attr("style", "margin-left:10px;"),
+    divButtons = $("<div></div>").addClass("divButtons"),
     deleteBtn = $(
-      "<button data-toggle='tooltip' title='Delete' onclick='deleteButton(this)'><span class='glyphicon glyphicon-trash'></span></button>"
+      "<button data-toggle='tooltip' class='threeBtns' title='Delete' onclick='deleteButton(this)'><span class='glyphicon glyphicon-trash'></span></button>"
     ).attr("id", `N${count}`),
     modifyBtn = $(
-      "<button data-toggle='tooltip' title='Modify' onclick='modifyButton(this)'><span class='glyphicon glyphicon-pencil'></span></button>"
+      "<button data-toggle='tooltip' class='threeBtns' title='Modify' onclick='modifyButton(this)'><span class='glyphicon glyphicon-pencil'></span></button>"
     ).attr("id", `N${count}`),
     deactiveBtn = $(
-      "<button data-toggle='tooltip' title='Deactivate' onclick='deactivateButton(this)'><span class='glyphicon glyphicon-ban-circle'></span</button>"
+      "<button data-toggle='tooltip' class='threeBtns' title='Deactivate' onclick='deactivateButton(this)'><span class='glyphicon glyphicon-ban-circle'></span</button>"
     ).attr("id", `N${count}`),
     div3 = $("<div>")
       .addClass("panel-collapse collapse procbody")
@@ -117,10 +141,10 @@ function addIt(name, surname, type, gender, partner, canBring, arrDays, id, rule
   calcolateLength();
 
   count++;
-  
+
   // Add to Deactivated persons
   if (!rule) {
-    deactiveBtn.click()
+    deactiveBtn.click();
   }
 }
 
@@ -151,7 +175,7 @@ $("#btn-add").on("click", function (e) {
     gender = $("input[class='gndr']:checked").attr("id"),
     partner = $("#sessoOpposto"),
     canBring = $("#canBring"),
-    coupleDays = $('.coupleDays');
+    coupleDays = $(".coupleDays");
 
   let partnerChecked = partner[0].checked,
     canBringChecked = canBring[0].checked,
@@ -163,7 +187,16 @@ $("#btn-add").on("click", function (e) {
     saturday = coupleDays[5].checked,
     sunday = coupleDays[6].checked;
 
-  addIt(name, surname, type, gender, partnerChecked, canBringChecked, [monday,tuesday,wensday,thursday,friday,saturday,sunday], count);
+  addIt(
+    name,
+    surname,
+    type,
+    gender,
+    partnerChecked,
+    canBringChecked,
+    [monday, tuesday, wensday, thursday, friday, saturday, sunday],
+    count
+  );
 
   // clear form names
   $(".formReset").trigger("reset");
@@ -173,7 +206,7 @@ $("#btn-add").on("click", function (e) {
 $("#exportFile").on("click", function () {
   if (
     confirm(
-      "Are you sure you want to save the file? Put the file in a safe folder, as Proclamatori."
+      "Are you sure you want to save the file? Put the file in a safe folder, as Congregation."
     )
   ) {
     var a = document.createElement("a");
@@ -207,18 +240,18 @@ inputFile.on("change", function (evt) {
       let parsed = JSON.parse(e.target.result);
 
       // add info from obj.persons
-      parsed.persons.forEach(val => {
+      parsed.persons.forEach((val) => {
         val.pop();
         val.push(count);
         addIt(...val);
       });
 
       // add info from obj.deactivated
-      parsed.deactivated.forEach(val => {
+      parsed.deactivated.forEach((val) => {
         val.pop();
         val.push(count);
-        addIt(...val, false)
-      })
+        addIt(...val, false);
+      });
     };
   })(f);
 
@@ -262,8 +295,7 @@ function modifyButton(e) {
     if (val.includes(e.id)) {
       personInObj = j;
       val.forEach((val, i) => {
-        if (i === 6) {
-        } else if (i === 2) {
+        if (i === 2) {
           let div = $("<div style='margin:5px 0px'>");
           let form = $("<form></form>");
           nameCheck = $(
@@ -292,11 +324,11 @@ function modifyButton(e) {
           div.append(nameCheck).append(nameCheck1);
           form.append(div);
           parent.append(div);
-        } else if (typeof val === "string") {
+        } else if (i === 0 || i === 1) {
           inputModify = $(`<input type='text' value='${val}'>`);
 
           parent.append(inputModify);
-        } else if (val === true || val === false) {
+        } else if (i === 4 || i === 5) {
           let div = $("<div style='margin:5px 0px'>");
           if (switching === 0) {
             inputModify = $(
@@ -317,9 +349,9 @@ function modifyButton(e) {
 
           div.append(inputModify).append(nameCheck);
           parent.append(div);
-        } else if (Array.isArray(val)) {
+        } else if (i === 6) {
           let div = $("<div style='margin:10px 0px'>"),
-            textFree = ("<p style='margin-bottom: 5px;'><b>Free Days</b></p>"),
+            textFree = "<p style='margin-bottom: 5px;'><b>Free Days</b></p>",
             div1 = $("<div class='divDaysMdf'>"),
             div2 = $("<div class='divDaysMdf'>"),
             div3 = $("<div class='divDaysMdf'>"),
@@ -327,23 +359,36 @@ function modifyButton(e) {
             div5 = $("<div class='divDaysMdf'>"),
             div6 = $("<div class='divDaysMdf'>"),
             div7 = $("<div class='divDaysMdf'>"),
-          
-          monday = $('<input class="coupleDaysMdf" type="checkbox" value="Monday" checked><p class="daysMdf textInformationModify checkbox-inline">Monday</p>')
-          tuesday = $('<input class="coupleDaysMdf" type="checkbox" value="Tuesday" checked><p class="daysMdf textInformationModify checkbox-inline">Tuesday</p>')
-          wensday = $('<input class="coupleDaysMdf" type="checkbox" value="Wensday" checked><p class="daysMdf textInformationModify checkbox-inline">Wensday</p>')
-          thursday = $('<input class="coupleDaysMdf" type="checkbox" value="Thursday" checked><p class="daysMdf textInformationModify checkbox-inline">Thursday</p>')
-          friday = $('<input class="coupleDaysMdf" type="checkbox" value="Friday" checked><p class="daysMdf textInformationModify checkbox-inline">Friday</p>')
-          saturday = $('<input class="coupleDaysMdf" type="checkbox" value="Saturday" checked><p class="daysMdf textInformationModify checkbox-inline">Saturday</p>')
-          sunday = $('<input class="coupleDaysMdf" type="checkbox" value="Sunday" checked><p class="daysMdf textInformationModify checkbox-inline">Sunday</p>')
+            monday = $(
+              '<input class="coupleDaysMdf" type="checkbox" value="Monday" checked><p class="daysMdf textInformationModify checkbox-inline">Monday</p>'
+            );
+          tuesday = $(
+            '<input class="coupleDaysMdf" type="checkbox" value="Tuesday" checked><p class="daysMdf textInformationModify checkbox-inline">Tuesday</p>'
+          );
+          wensday = $(
+            '<input class="coupleDaysMdf" type="checkbox" value="Wensday" checked><p class="daysMdf textInformationModify checkbox-inline">Wensday</p>'
+          );
+          thursday = $(
+            '<input class="coupleDaysMdf" type="checkbox" value="Thursday" checked><p class="daysMdf textInformationModify checkbox-inline">Thursday</p>'
+          );
+          friday = $(
+            '<input class="coupleDaysMdf" type="checkbox" value="Friday" checked><p class="daysMdf textInformationModify checkbox-inline">Friday</p>'
+          );
+          saturday = $(
+            '<input class="coupleDaysMdf" type="checkbox" value="Saturday" checked><p class="daysMdf textInformationModify checkbox-inline">Saturday</p>'
+          );
+          sunday = $(
+            '<input class="coupleDaysMdf" type="checkbox" value="Sunday" checked><p class="daysMdf textInformationModify checkbox-inline">Sunday</p>'
+          );
 
-          div1.append(monday)
-          div2.append(tuesday)
-          div3.append(wensday)
-          div4.append(thursday)
-          div5.append(friday)
-          div6.append(saturday)
-          div7.append(sunday)
-          div.append(textFree).append(div1,div2,div3,div4,div5,div6,div7)
+          div1.append(monday);
+          div2.append(tuesday);
+          div3.append(wensday);
+          div4.append(thursday);
+          div5.append(friday);
+          div6.append(saturday);
+          div7.append(sunday);
+          div.append(textFree).append(div1, div2, div3, div4, div5, div6, div7);
           parent.append(div);
         }
       });
@@ -396,39 +441,39 @@ function modifyButton(e) {
       partner = "No";
     }
     if (mondayM) {
-      mondayM = "Yes"
+      mondayM = "Yes";
     } else {
-      mondayM = "No"
+      mondayM = "No";
     }
     if (tuesdayM) {
-      tuesdayM = "Yes"
+      tuesdayM = "Yes";
     } else {
-      tuesdayM = "No"
+      tuesdayM = "No";
     }
     if (wensdayM) {
-      wensdayM = "Yes"
+      wensdayM = "Yes";
     } else {
-      wensdayM = "No"
+      wensdayM = "No";
     }
     if (thursdayM) {
-      thursdayM = "Yes"
+      thursdayM = "Yes";
     } else {
-      thursdayM = "No"
+      thursdayM = "No";
     }
     if (fridayM) {
-      fridayM = "Yes"
+      fridayM = "Yes";
     } else {
-      fridayM = "No"
+      fridayM = "No";
     }
     if (saturdayM) {
-      saturdayM = "Yes"
+      saturdayM = "Yes";
     } else {
-      saturdayM = "No"
+      saturdayM = "No";
     }
     if (sundayM) {
-      sundayM = "Yes"
+      sundayM = "Yes";
     } else {
-      sundayM = "No"
+      sundayM = "No";
     }
 
     // Modify Header Name
@@ -443,7 +488,9 @@ function modifyButton(e) {
 
     parent.empty();
     parent.append(
-      `<b>Name:</b> ${all.eq(0).val()}<br><b>Surname:</b> ${all.eq(1).val()}<br><b>Type:</b> ${valType}<br><b>Sex:</b> ${valGender}<br><b>Transport:</b> ${canBring}<br><b>Partner:</b> ${partner}<p style="margin: 10px 0px 0px 0px;"><b>Free Days</b></p><div style="margin-left: 10px;">Monday: ${mondayM}<br>Tuesday: ${tuesdayM}<br>Wensday: ${wensdayM}<br>Thursday: ${thursdayM}<br>Friday: ${fridayM}<br>Saturday: ${saturdayM}<br>Sunday: ${sundayM}</div>`
+      `<b>Name:</b> ${all.eq(0).val()}<br><b>Surname:</b> ${all
+        .eq(1)
+        .val()}<br><b>Type:</b> ${valType}<br><b>Sex:</b> ${valGender}<br><b>Transport:</b> ${canBring}<br><b>Partner:</b> ${partner}<p style="margin: 10px 0px 0px 0px;"><b>Free Days</b></p><div style="margin-left: 10px;">Monday: ${mondayM}<br>Tuesday: ${tuesdayM}<br>Wensday: ${wensdayM}<br>Thursday: ${thursdayM}<br>Friday: ${fridayM}<br>Saturday: ${saturdayM}<br>Sunday: ${sundayM}</div>`
     );
 
     let arr = [
@@ -454,7 +501,7 @@ function modifyButton(e) {
       canBring,
       partner,
       e.id,
-      [mondayM,tuesdayM,wensdayM,thursdayM,fridayM,saturdayM,sundayM]
+      [mondayM, tuesdayM, wensdayM, thursdayM, fridayM, saturdayM, sundayM],
     ];
     modifyObj(personInObj, ...arr);
   });
@@ -474,10 +521,10 @@ function modifyObj(id, ...arg) {
     arg[5] = false;
   }
 
-  $(arg[7]).each((i,val)=>{
-    if(val === "Yes") arg[7][i] = true
-    else arg[7][i] = false
-  })
+  $(arg[7]).each((i, val) => {
+    if (val === "Yes") arg[7][i] = true;
+    else arg[7][i] = false;
+  });
 
   obj.persons[id].splice(0, 8, ...arg);
 }
@@ -486,23 +533,24 @@ function modifyObj(id, ...arg) {
 function deactivateButton(e) {
   let mainParent = $(e).parent().parent().parent().parent(),
     elem = $(e).parent().parent().parent(),
-    id = $(e).attr('id');
+    id = $(e).attr("id");
 
-    
   // DOM modification
   elem.remove();
   $("#deactCollapse").append(elem);
   let buttonsDiv = $(e).parent(), // buttons div
-     buttons = $(e).parent().children(); // buttons modify, delete, deactivate
-  
+    buttons = $(e).parent().children(); // buttons modify, delete, deactivate
+
   // Append button activate
-  buttonsDiv.empty()
-  let newButton = $('<button><span class="glyphicon glyphicon-upload"></span></button>').addClass('activateBtn')
-  buttonsDiv.append(newButton)
+  buttonsDiv.empty();
+  let newButton = $(
+    '<button><span class="glyphicon glyphicon-upload"></span></button>'
+  ).addClass("activateBtn");
+  buttonsDiv.append(newButton);
 
   // Append buttons modify, delete and deactivate
   // Activate in DOM and obj
-  newButton.click(()=>{
+  newButton.click(() => {
     // DOM modification
     buttonsDiv.empty();
     buttonsDiv.append(buttons);
@@ -511,15 +559,15 @@ function deactivateButton(e) {
 
     // obj modification
     let index = obj.deactivated.findIndex((val) => val.includes(id));
-    obj.persons.push(obj.deactivated[index])
-    obj.deactivated.splice(index,1)
+    obj.persons.push(obj.deactivated[index]);
+    obj.deactivated.splice(index, 1);
     calcolateLength();
-  })
+  });
 
   // obj modification
   let index = obj.persons.findIndex((val) => val.includes(id));
-  obj.deactivated.push(obj.persons[index])
-  obj.persons.splice(index,1)
+  obj.deactivated.push(obj.persons[index]);
+  obj.persons.splice(index, 1);
   calcolateLength();
 }
 

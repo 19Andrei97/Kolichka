@@ -1,5 +1,4 @@
 //todo ADD: Possibility to choose if publishers can bring kolichka
-//todo REMOVE: Errors in pairing
 
 let allPersons = {},
   calendar = [],
@@ -24,7 +23,8 @@ let allPersons = {},
   currentMonth = today.getMonth(),
   currentYear = today.getFullYear(),
   firstDay,
-  daysInMonth;
+  daysInMonth,
+  difficultOne = false;
 
 //!   CALENDAR       \\\\\\\\
 showCalendar(currentMonth, currentYear);
@@ -182,7 +182,7 @@ $("#refreshExp").click(function () {
     let arrPub = [],
       arrEld = [],
       arrPion = [],
-      error = 0
+      error = 0;
 
     for (let i = 0; i < 300; i++) {
       // clean first
@@ -199,13 +199,16 @@ $("#refreshExp").click(function () {
 
       try {
         // Start fake couple and give average statistics
-        createChilds(obj, allPersons);
+        createChilds(obj, allPersons, previusAllPersons);
         pairingAlgorithm(allPersons, parameters.day, numbQueue, calendar);
         let specExp = statistics(false);
         arrPub.push(specExp[0]);
         arrEld.push(specExp[1]);
         arrPion.push(specExp[2]);
-      } catch (er) {error++}
+      } catch (er) {
+        error++;
+        if (i === 299) break;
+      }
     }
     // Clean elem
     $("#publishersExp").empty();
@@ -213,12 +216,18 @@ $("#refreshExp").click(function () {
     $("#pioneersExp").empty();
     $("#errorExp").empty();
     // Show percentage and let user understand the changes
-    setTimeout(()=>{
-      $("#publishersExp").text(`${Math.floor(arrPub.reduce((a,b)=>a+b)/arrPub.length)}%`);
-      $("#eldersExp").text(`${Math.floor(arrEld.reduce((a,b)=>a+b)/arrEld.length)}%`);
-      $("#pioneersExp").text(`${Math.floor(arrPion.reduce((a,b)=>a+b)/arrPion.length)}%`);
-      $("#errorExp").text(`${Math.floor(error / 300 * 100)}%`);
-    },300)
+    setTimeout(() => {
+      $("#publishersExp").text(
+        `${Math.floor(arrPub.reduce((a, b) => a + b) / arrPub.length)}%`
+      );
+      $("#eldersExp").text(
+        `${Math.floor(arrEld.reduce((a, b) => a + b) / arrEld.length)}%`
+      );
+      $("#pioneersExp").text(
+        `${Math.floor(arrPion.reduce((a, b) => a + b) / arrPion.length)}%`
+      );
+      $("#errorExp").text(`${Math.floor((error / 300) * 100)}%`);
+    }, 300);
   } else {
     // Clean elem
     $("#publishersExp").empty();
@@ -253,23 +262,27 @@ $("#startPairing").on("click", function () {
     setTimeout(() => $("#noStart").fadeOut(1500), 1500);
   } else {
     // Restart if error is found for max 300 times
-    if (errorMax % 300 === 0) {
+    if (errorMax === 300) {
       $("#tooDif").slideDown(300).attr("style", "display:block;");
       setTimeout(() => $("#tooDif").fadeOut(2000), 2000);
-      errorMax++;
-      if (errorMax > 1000) errorMax = 0;
+      errorMax = 1
     } else {
       try {
-        createChilds(obj, allPersons);
+        createChilds(obj, allPersons, previusAllPersons);
         pairingAlgorithm(allPersons, parameters.day, numbQueue, calendar);
         showPairedPeoples(allPersons, calendar);
         statistics();
       } catch (error) {
-        // console.log(error);
+        if(errorMax === 299){console.log(error);}
         errorMax++;
         $("#startPairing").click();
       }
     }
+  }
+
+  if(difficultOne){
+    $("#difficultOne").slideDown(300).attr("style", "display:block;");
+    setTimeout(() => $("#difficultOne").fadeOut(5000), 2000);
   }
 });
 
@@ -298,13 +311,13 @@ PersonAl.prototype.addPaired = function (id) {
   this.beenPaired.push(id);
 };
 PersonAl.prototype.updateDay = function (dayNumber) {
-  if (dayNumber === 0) dayNumber = "monday";
-  else if (dayNumber === 1) dayNumber = "tuersday";
-  else if (dayNumber === 2) dayNumber = "wensday";
-  else if (dayNumber === 3) dayNumber = "thuersday";
-  else if (dayNumber === 4) dayNumber = "friday";
-  else if (dayNumber === 5) dayNumber = "saturday";
-  else if (dayNumber === 6) dayNumber = "sunday";
+  if (dayNumber % 7 === 0) dayNumber = "monday";
+  else if (dayNumber % 7 === 1) dayNumber = "tuersday";
+  else if (dayNumber % 7 === 2) dayNumber = "wensday";
+  else if (dayNumber % 7 === 3) dayNumber = "thuersday";
+  else if (dayNumber % 7 === 4) dayNumber = "friday";
+  else if (dayNumber % 7 === 5) dayNumber = "saturday";
+  else if (dayNumber % 7 === 6) dayNumber = "sunday";
 
   this.daysLastMonth[dayNumber]++;
 };
@@ -313,7 +326,7 @@ PersonAl.prototype.updateTimesUsed = function () {
 };
 
 //! Create child from obj and put them on allPersons
-function createChilds(objTake, objPut) {
+function createChilds(objTake, objPut, objPast = {}) {
   objTake.persons.forEach((val) => {
     let fullName = `${val[0]} ${val[1]}`;
     objPut[val[7]] = new PersonAl(
@@ -325,6 +338,21 @@ function createChilds(objTake, objPut) {
       val[6],
       val[7]
     );
+
+    // Updating the newly created obj with past months info
+    if (objPast.hasOwnProperty(val[7])) {
+      // Push been paired from last months to the new obj
+      objPut[val[7]].beenPaired = objPast[val[7]].beenPaired;
+
+      // Update days of new obj based on last months
+      let daysNew = objPut[val[7]].daysLastMonth;
+      for (const key in daysNew) {
+        daysNew[key] += objPast[val[7]].daysLastMonth[key];
+      }
+
+      // Update timesUsed
+      objPut[val[7]].timesUsed += objPast[val[7]].timesUsed;
+    }
   });
 }
 
@@ -364,60 +392,45 @@ function findIds(obj, firstIdRule, day) {
   let firstType = queueSet(firstIdRule),
     firstId = findIdLessUsed(obj, day, firstType, arrIds1);
 
-  // If first id is an error stop and return
-  if (firstId.length > 3) {
-    return ["Error", "No couple found"];
-  } else {
-    // Second id
-    (bring = obj[firstId].bring),
-      (other = obj[firstId].otherSex),
-      (arrIds = []),
-      (type = queueSet()),
-      arrFiltered;
+  // Second id
+  (bring = obj[firstId].bring),
+    (other = obj[firstId].otherSex),
+    (arrIds = []),
+    type = queueSet();
 
-    // Check to not pair same person and persons that have been paired already and free days
-    for (const key in obj) {
-      if (
-        key !== firstId &&
-        !obj[key].beenPaired.includes(firstId) &&
-        obj[key].arrFree[day % 7]
-      )
-        arrIds.push(key);
-    }
-
-    // Checking bring and other sex compatibility
-    arrFiltered = arrIds
-      .filter((val) => {
-        if (obj[val].bring || bring) return val;
-      })
-      .filter((val) => {
-        if (other) return val;
-        else if (obj[val].gender === obj[firstId].gender) return val;
-      });
+  // Check to not pair same person and persons that have been paired already and free days
+  for (const key in obj) {
+    if (
+      key !== firstId &&
+      !obj[key].beenPaired.includes(firstId) &&
+      obj[key].arrFree[day % 7]
+    )
+      arrIds.push(key);
   }
+
+  // Checking bring and other sex compatibility
+  arrFiltered = arrIds
+    .filter((val) => {
+      if (obj[val].bring || bring) return val;
+    })
+    .filter((val) => {
+      if (other) return val;
+      else if (obj[val].gender === obj[firstId].gender) return val;
+    });
 
   // Check less used from previus array
-  let secondId = findIdLessUsed(obj, day, type, arrFiltered);
+  let secondId = findIdLessUsed(obj, day, type, arrFiltered, firstId);
 
-  // If second id is an error return it
-  if (secondId.length > 3) {
-    // Update both Ids
-    obj[firstId].updateDay(day);
-    obj[firstId].updateTimesUsed();
+  // Update both Ids (if id was already been paired with other id don't push it again)
+  if(obj[firstId].beenPaired.indexOf(secondId) === -1) obj[firstId].beenPaired.push(secondId);
+  obj[firstId].updateDay(day);
+  obj[firstId].updateTimesUsed();
 
-    return [firstId, secondId];
-  } else {
-    // Update both Ids
-    obj[firstId].beenPaired.push(secondId);
-    obj[firstId].updateDay(day);
-    obj[firstId].updateTimesUsed();
+  if(obj[secondId].beenPaired.indexOf(firstId) === -1) obj[secondId].beenPaired.push(firstId);
+  obj[secondId].updateDay(day);
+  obj[secondId].updateTimesUsed();
 
-    obj[secondId].beenPaired.push(firstId);
-    obj[secondId].updateDay(day);
-    obj[secondId].updateTimesUsed();
-
-    return [firstId, secondId];
-  }
+  return [firstId, secondId];
 }
 
 //! Check which day to set pairing
@@ -479,7 +492,7 @@ function queueSet(rule) {
 }
 
 //! Find ID of less used person
-function findIdLessUsed(obj, day, first, arr = []) {
+function findIdLessUsed(obj, day, first, arr = [], firstId) {
   let arrTotal = [[], [], []]; // id - total count - day count
   let min, indexTotal, min1, indexWeek;
 
@@ -519,16 +532,25 @@ function findIdLessUsed(obj, day, first, arr = []) {
     });
   }
 
-  // Check if we are at the end of the cicle and still no solution is find
-  if (arrTotal.length !== 0 && errorMax < 299) {
-    min = arrTotal[1].reduce((a, b) => Math.min(a, b)); //! COMMON ERRORS
-    indexTotal = arrTotal[1].findIndex((val) => val === min);
+  // Prevent further errors if errorMax reached 299 loops
+  if(arrTotal[0].length === 0 && errorMax === 299){
+    let arrPast = obj[firstId].beenPaired;
+    if(arrPast.length === 0) throw "Can't proceed, is better to throw the error banner!"
 
-    min1 = arrTotal[2].reduce((a, b) => Math.min(a, b));
-    indexWeek = arrTotal[2].findIndex((val) => val === min1);
-  } else {
-    return "No compatible person found!";
+    arrPast.forEach((val)=>{
+      arrTotal[0].push(val);
+      arrTotal[1].push(obj[val].timesUsed);
+      arrTotal[2].push(obj[val].daysLastMonth[day]);
+    })
+
+    difficultOne = true
   }
+
+  min = arrTotal[1].reduce((a, b) => Math.min(a, b)); //! COMMON ERRORS
+  indexTotal = arrTotal[1].findIndex((val) => val === min);
+
+  min1 = arrTotal[2].reduce((a, b) => Math.min(a, b));
+  indexWeek = arrTotal[2].findIndex((val) => val === min1);
 
   // if is the same index return total count Id
   if (indexTotal === indexWeek) return arrTotal[0][indexTotal];

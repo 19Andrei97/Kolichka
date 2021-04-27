@@ -182,6 +182,42 @@ a {
 .divDaysMdf{
     margin-left: 10px;
 }
+.navbar-brand{
+    cursor: default;
+}
+.divButtons {
+    text-align: center;
+    margin-bottom: -10px;
+    margin-right: -12px;
+    margin-left: -12px;
+}
+.threeBtns{
+    width: 33%;
+    border: none;
+    border-top: 1px solid rgb(172, 172, 172);
+    padding-top: 3px;
+}
+.divMonthBtns{
+    margin-top: 10px;
+    width: 100%;
+}
+.btnMonth{
+    background-color: #8484cf;
+    border-color: #393a6b;
+    width: 50%;
+}
+.btnMonth:hover{
+    background-color: #40408d;
+    border-color: #232350;
+}
+.divMonthShow{
+    margin-top: 8px !important;
+    background-color: white;
+    border-radius: 4px;
+    width: 90%;
+    margin: auto;
+    display: none;
+}
 
     .navbar {
         margin-bottom: 0;
