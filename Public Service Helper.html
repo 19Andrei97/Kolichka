@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Pubblic Serice Helper</title>
+    <title href="https://github.com/19Andrei97/Kolichka.git">GitHub project by Andrea</title>
+    <link rel="icon" href="data/IconHelper.png">
 </head>
 
 <body>
@@ -184,11 +186,6 @@
     <nav class="navbar navbar-inverse">
         <div class="container-fluid headShadow">
             <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
                 <a class="navbar-brand">The Pubblic Service Helper</a>
             </div>
         </div>
@@ -292,15 +289,23 @@
                         <span class="glyphicon glyphicon-cog"></span>
                     </a>
                 </div>
+                <div class="btn-group btn-group-sm divMonthBtns">
+                    <button type="button" id="importMonth" class="btn btn-primary btnMonth">Import Month</button>
+                    <button type="button" id="saveMonth" class="btn btn-primary btnMonth">Save Month</button>
+                </div>
                 <div class="panel panel-default text-left statistics" style="margin: 20px 0px;">
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- Error Messages -->
     <div id="successfully" class="alert alert-success navbar-fixed-bottom" style="display: none;" role="alert">Person successfully added!</div>
     <div id="noStart" class="alert alert-danger navbar-fixed-bottom" style="display: none;" role="alert">There aren't enough person to pair! Add at least 10 persons!</div>
     <div id="tooDif" class="alert alert-danger navbar-fixed-bottom" style="display: none;" role="alert">Error! Too difficult to pair people, try to change parameters!</div>
+    <div id="noMonthSave" class="alert alert-danger navbar-fixed-bottom" style="display: none;" role="alert">No month to save! Create one by pressing Automatic pairing!</div>
+    <div id="difficultOne" class="alert alert-warning navbar-fixed-bottom" style="display: none;" role="alert">This was a difficult task, so some people have been paired together more than one time.</div>
+    <div id="notMonth" class="alert alert-danger navbar-fixed-bottom" style="display: none;" role="alert">The file you tried to add isn't supported!</div>
 </body>
 
 <!-- Latest compiled and minified CSS -->
@@ -317,5 +322,7 @@
 <link rel="stylesheet" href="data/style.css">
 
 <script src="data/pairingAlgorithm.js"></script>
+
+<script src="data/importSaveMonth.js"></script>
 
 </html>
