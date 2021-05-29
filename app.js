@@ -1,13 +1,9 @@
 const path = require("path");
-const http = require("http");
 const express = require("express");
 
-const publicPath = path.join(__dirname, "/data");
-const port = 3000;
-let app = express();
-let server = http.createServer(app);
-app.use(express.static(publicPath));
+const PORT = 3000;
 
-server.listen(port, () => {
-  console.log(`Server is up on port ${port}.`);
-});
+express()
+  .use(express.static(path.join(__dirname, 'public')))
+  .get('/', (req, res) => res.render('app'))
+  .listen(PORT, () => console.log(`Listening on ${ PORT }`));
