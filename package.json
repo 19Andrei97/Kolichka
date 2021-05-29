@@ -1,0 +1,20 @@
+{
+  "name": "espositori",
+  "version": "1.0.0",
+  "description": "<h2>The Public Service Helper</h2>",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/19Andrei97/Kolichka.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/19Andrei97/Kolichka/issues"
+  },
+  "homepage": "https://github.com/19Andrei97/Kolichka#readme"
+}
