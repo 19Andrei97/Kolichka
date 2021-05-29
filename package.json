@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/19Andrei97/Kolichka/issues"
   },
-  "homepage": "https://github.com/19Andrei97/Kolichka#readme"
+  "homepage": "https://github.com/19Andrei97/Kolichka#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
 }
