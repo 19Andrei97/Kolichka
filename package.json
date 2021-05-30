@@ -7,17 +7,19 @@
     "start": "node app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "engines": {
+    "node": "16.2.0"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/19Andrei97/Kolichka.git"
   },
   "keywords": [],
-  "author": "",
+  "author": "Andrea",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/19Andrei97/Kolichka/issues"
   },
-  "homepage": "https://github.com/19Andrei97/Kolichka#readme",
   "dependencies": {
     "express": "^4.17.1"
   }
